@@ -7,8 +7,6 @@ const LINKS = [
   { href: "/", label: "บอร์ดงานขาย" },
   { href: "/jobs/new", label: "เพิ่มงานใหม่" },
   { href: "/summary", label: "สรุปรายวัน" },
-  { href: "/orders", label: "รายการคำสั่งซื้อ" },
-  { href: "/orders/new", label: "เพิ่มคำสั่งซื้อ" },
 ];
 
 export default function Nav() {
