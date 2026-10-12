@@ -78,15 +78,20 @@ export default function NewJob() {
         setSaving(false);
         return;
       }
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setErrors(data.errors || { form: "บันทึกไม่สำเร็จ กรุณาลองใหม่" });
+        setErrors(data.errors || { form: data.error || "ระบบเก็บข้อมูลขัดข้อง บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง" });
         setSaving(false);
         return;
       }
       router.push(`/jobs/${data.id}?new=1`);
     } catch {
-      setErrors({ form: "เชื่อมต่อระบบไม่ได้ ตรวจว่าหน้าต่างสีดำ (npm run dev) ยังเปิดอยู่" });
+      // ติดต่อเว็บไม่ได้เลย: บนเครื่องมักเกิดจากปิดหน้าต่างสีดำ, บนเว็บออนไลน์มักเกิดจากอินเทอร์เน็ต
+      setErrors({
+        form: location.hostname === "localhost"
+          ? "เชื่อมต่อระบบไม่ได้ ตรวจว่าหน้าต่างสีดำ (npm run dev) ยังเปิดอยู่"
+          : "เชื่อมต่อระบบไม่ได้ ตรวจอินเทอร์เน็ต แล้วลองใหม่อีกครั้ง",
+      });
       setSaving(false);
     }
   }

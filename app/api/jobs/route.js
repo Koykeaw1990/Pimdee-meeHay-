@@ -21,6 +21,11 @@ export async function POST(request) {
   }
   if (Object.keys(errors).length) return NextResponse.json({ errors }, { status: 400 });
 
-  const job = await createJob({ customer, docNo, file: hasFile ? file : null });
-  return NextResponse.json(job, { status: 201 });
+  try {
+    const job = await createJob({ customer, docNo, file: hasFile ? file : null });
+    return NextResponse.json(job, { status: 201 });
+  } catch (e) {
+    console.error("create job failed:", e.message);
+    return NextResponse.json({ error: "ระบบเก็บข้อมูลขัดข้อง บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง" }, { status: 500 });
+  }
 }
