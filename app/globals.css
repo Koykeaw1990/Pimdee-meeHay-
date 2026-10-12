@@ -256,3 +256,12 @@ th { background: var(--sunk); font-size: 15px; color: var(--muted); font-weight:
 .more:hover { background: color-mix(in srgb, var(--sc) 8%, white); }
 .jobs-table td:nth-child(2), .jobs-table td:nth-child(5) { white-space: nowrap; }
 .jobs-table td:nth-child(4) { white-space: nowrap; }
+
+/* งานตัวอย่าง */
+.sample-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #fff; background: #ae3ec9; border-radius: 999px; padding: 1px 9px; margin-left: 6px; vertical-align: middle; white-space: nowrap; }
+.sample-bar .sample-tag, .hero .sample-tag { margin-left: 0; }
+.sample-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; background: #f8f0fc; border: 1px solid #eebefa; border-radius: 14px; padding: 10px 14px; margin-bottom: 14px; }
+.confirm-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 600; color: #c92a2a; }
+.btn-soft.danger { color: var(--red); background: #fff0f0; border-color: #ffc9c9; }
+.btn-danger { font: inherit; font-weight: 700; color: #fff; background: var(--red); border: 0; border-radius: 10px; padding: 9px 16px; cursor: pointer; }
+.btn-danger:disabled { opacity: .6; cursor: wait; }

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { STAGES, thDate } from "@/lib/data";
 import { Icon } from "./Icons";
 
@@ -92,6 +93,7 @@ export default function Board({ jobs }) {
 
   return (
     <>
+      <SampleBar count={jobs.filter((j) => j.sample).length} />
       <div className="stat-tiles">
         {TILES.map((t) => (
           <button key={t.key} type="button" className={`stat ${t.cls}${tile === t.key ? " on" : ""}`}
@@ -152,6 +154,7 @@ export default function Board({ jobs }) {
                   <tr key={j.id} style={stageVar(j)}>
                     <td className="c-name">
                       <Link href={`/jobs/${j.id}`}>{j.customer}</Link>
+                      {j.sample && <span className="sample-tag">ตัวอย่าง</span>}
                       {j.hasFile && <span className="clip" title="มีไฟล์ใบเสนอราคา"><Icon name="clip" size={15} /></span>}
                     </td>
                     <td className="muted">{j.docNo}</td>
@@ -227,7 +230,7 @@ function Card({ job }) {
   return (
     <Link href={`/jobs/${job.id}`} className="card" style={stageVar(job)}>
       <StatusBar job={job} />
-      <h3>{job.customer}</h3>
+      <h3>{job.customer} {job.sample && <span className="sample-tag">ตัวอย่าง</span>}</h3>
       <p className="muted small">เลขที่เอกสาร {job.docNo}</p>
       <div className="mini-prog">
         {STAGES.map((_, i) => <i key={i} className={i < job.doneCount ? "on" : ""} />)}
@@ -236,5 +239,45 @@ function Card({ job }) {
         <p className={job.late ? "chip late" : "chip"}>ส่งงาน {thDate(job.dueDate)}{job.late ? " · เลยกำหนด" : ""}</p>
       )}
     </Link>
+  );
+}
+
+// แถบแจ้งว่ามีงานตัวอย่าง พร้อมปุ่มลบงานตัวอย่างทั้งหมด (ถามยืนยันก่อน)
+function SampleBar({ count }) {
+  const router = useRouter();
+  const [ask, setAsk] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  if (!count) return null;
+
+  async function removeAll() {
+    setBusy(true);
+    try {
+      const res = await fetch("/api/samples", { method: "DELETE" });
+      if (!res.ok) throw new Error();
+      setAsk(false);
+      router.refresh();
+    } catch {
+      setErr("ลบไม่สำเร็จ กรุณาลองใหม่");
+    }
+    setBusy(false);
+  }
+
+  return (
+    <div className="sample-bar">
+      <span>
+        <span className="sample-tag">ตัวอย่าง</span> ตอนนี้มีงานตัวอย่าง <b>{count}</b> งาน (ข้อมูลสมมติ) ไว้ดูการทำงานของระบบ
+      </span>
+      {!ask ? (
+        <button type="button" className="btn-soft danger" onClick={() => setAsk(true)}>ลบงานตัวอย่างทั้งหมด</button>
+      ) : (
+        <span className="confirm-row">
+          <span>ลบงานตัวอย่าง {count} งาน? งานจริงไม่ถูกลบ</span>
+          <button type="button" className="btn-danger" onClick={removeAll} disabled={busy}>{busy ? "กำลังลบ…" : "ยืนยันลบ"}</button>
+          <button type="button" className="btn-soft" onClick={() => setAsk(false)} disabled={busy}>ยกเลิก</button>
+        </span>
+      )}
+      {err && <span className="err">{err}</span>}
+    </div>
   );
 }

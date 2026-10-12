@@ -76,6 +76,7 @@ export default function JobDetail({ initialJob, isNew }) {
           <p className="tags">
             <span className="tag">เลขที่เอกสาร {job.docNo}</span>
             <span className="tag">เพิ่มเมื่อ {thDate(job.createdAt)}</span>
+            {job.sample && <span className="sample-tag">ตัวอย่าง · ข้อมูลสมมติ</span>}
           </p>
           <div className="progress" aria-label={`เสร็จ ${doneCount} จาก ${STAGES.length} ขั้น`}>
             {STAGES.map((_, i) => (

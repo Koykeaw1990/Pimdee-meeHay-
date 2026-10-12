@@ -17,6 +17,7 @@ export default async function Home() {
     const lastDone = j.steps.map((s) => s.doneAt).filter(Boolean).sort().pop() || "";
     return {
       id: j.id,
+      sample: !!j.sample,
       customer: j.customer,
       docNo: j.docNo,
       stage,

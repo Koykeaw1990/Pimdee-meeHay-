@@ -80,7 +80,7 @@ export default async function Summary({ searchParams }) {
                 <Link href={`/jobs/${j.id}`} className="day-job">
                   <span className="day-ico"><Icon name="check" /></span>
                   <span className="day-name">
-                    <strong>{j.customer}</strong>
+                    <strong>{j.customer}{j.sample && <span className="sample-tag">ตัวอย่าง</span>}</strong>
                     <span className="muted">เลขที่เอกสาร {j.docNo}</span>
                   </span>
                   <span className="muted">เสร็จ {timeOf(j.finishedAt)} น.</span>
