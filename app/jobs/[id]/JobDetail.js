@@ -20,6 +20,7 @@ export default function JobDetail({ initialJob, isNew }) {
       method: "PATCH",
       ...(isFile ? { body } : { headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }),
     });
+    if (res.status === 413) throw new Error("ไฟล์ใหญ่เกินไป เว็บออนไลน์รับไฟล์ไม่เกิน 4 MB");
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || "บันทึกไม่สำเร็จ กรุณาลองใหม่");
     setJob(data);
@@ -109,7 +110,7 @@ export default function JobDetail({ initialJob, isNew }) {
         <div className="field">
           <label htmlFor="file">{job.file ? "เปลี่ยนเป็นไฟล์ใหม่" : "แนบไฟล์"}</label>
           <FilePicker id="file" label={job.file ? "เลือกไฟล์ใหม่" : "เลือกไฟล์"} onPick={upload} />
-          <p className="help">รับไฟล์ PDF, รูป (JPG, PNG), Word หรือ Excel ไม่เกิน 10 MB</p>
+          <p className="help">รับไฟล์ PDF, รูป (JPG, PNG), Word หรือ Excel ไม่เกิน 10 MB (บนเว็บออนไลน์ไม่เกิน 4 MB)</p>
         </div>
       </section>
 

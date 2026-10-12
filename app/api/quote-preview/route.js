@@ -8,7 +8,9 @@ export async function POST(request) {
   if (!file || typeof file !== "object" || !/\.xlsx$/i.test(file.name)) {
     return NextResponse.json({ error: "ดึงชื่ออัตโนมัติได้เฉพาะไฟล์ Excel (.xlsx)" }, { status: 400 });
   }
-  if (file.size > MAX_FILE_SIZE) return NextResponse.json({ error: "ไฟล์ใหญ่เกิน 10 MB" }, { status: 400 });
+  if (file.size > MAX_FILE_SIZE) {
+    return NextResponse.json({ error: `ไฟล์ใหญ่เกิน ${MAX_FILE_SIZE / 1024 / 1024} MB` }, { status: 400 });
+  }
   try {
     const sheets = readQuoteCustomers(Buffer.from(await file.arrayBuffer()));
     return NextResponse.json({ sheets });

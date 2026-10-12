@@ -45,6 +45,7 @@ export default function NewJob() {
     body.append("file", f);
     try {
       const res = await fetch("/api/quote-preview", { method: "POST", body });
+      if (res.status === 413) return setReadNote("ไฟล์ใหญ่เกินไป เว็บออนไลน์รับไฟล์ไม่เกิน 4 MB");
       const data = await res.json();
       if (!res.ok) return setReadNote(data.error);
       setSheets(data.sheets);
@@ -72,6 +73,11 @@ export default function NewJob() {
     if (file) body.append("file", file);
     try {
       const res = await fetch("/api/jobs", { method: "POST", body });
+      if (res.status === 413) {
+        setErrors({ file: "ไฟล์ใหญ่เกินไป เว็บออนไลน์รับไฟล์ไม่เกิน 4 MB" });
+        setSaving(false);
+        return;
+      }
       const data = await res.json();
       if (!res.ok) {
         setErrors(data.errors || { form: "บันทึกไม่สำเร็จ กรุณาลองใหม่" });
@@ -127,7 +133,7 @@ export default function NewJob() {
           <div className="field">
             <label htmlFor="file">แนบไฟล์</label>
             <FilePicker id="file" label="เลือกไฟล์" fileName={file?.name} onPick={pickFile} bad={errors.file} />
-            <p className="help">รับไฟล์ PDF, รูป (JPG, PNG), Word หรือ Excel ไม่เกิน 10 MB · ถ้าเป็น Excel (.xlsx) ระบบจะเติมชื่อลูกค้าให้</p>
+            <p className="help">รับไฟล์ PDF, รูป (JPG, PNG), Word หรือ Excel ไม่เกิน 10 MB (บนเว็บออนไลน์ไม่เกิน 4 MB) · ถ้าเป็น Excel (.xlsx) ระบบจะเติมชื่อลูกค้าให้</p>
             {errors.file && <p className="err">{errors.file}</p>}
             {readNote && <p className="warn">{readNote}</p>}
           </div>
