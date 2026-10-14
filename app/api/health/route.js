@@ -1,18 +1,19 @@
 import { NextResponse } from "next/server";
 import { supabaseStore } from "@/lib/store-supabase";
 import { ONLINE } from "@/lib/jobs-db";
+import { supabaseEnv } from "@/lib/supabase-env";
 
 export const dynamic = "force-dynamic";
 
 // ตรวจสุขภาพระบบเก็บข้อมูล (ไม่แสดงกุญแจหรือข้อมูลลับใด ๆ)
 export async function GET() {
-  const url = process.env.SUPABASE_URL || "";
-  const key = process.env.SUPABASE_SECRET_KEY || "";
+  const { url, key, keyName } = supabaseEnv();
   const info = {
     mode: ONLINE ? "supabase" : "local",
     urlSet: !!url,
     urlLooksRight: /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url.trim()),
     keySet: !!key,
+    keyName,
     keyKind: key.startsWith("sb_secret_") ? "secret" : key.startsWith("sb_publishable_") ? "publishable (ผิดชนิด)" : key.startsWith("eyJ") ? "legacy-jwt" : key ? "unknown" : "none",
     keyHasSpaces: key !== key.trim(),
   };
