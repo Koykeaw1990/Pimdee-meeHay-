@@ -84,7 +84,7 @@ export default function NewJob() {
         setSaving(false);
         return;
       }
-      router.push(`/jobs/${data.id}?new=1`);
+      router.push(`/jobs/${data.id}?new=1${data.fileError ? `&fileError=${encodeURIComponent(data.fileError)}` : ""}`);
     } catch {
       // ติดต่อเว็บไม่ได้เลย: บนเครื่องมักเกิดจากปิดหน้าต่างสีดำ, บนเว็บออนไลน์มักเกิดจากอินเทอร์เน็ต
       setErrors({

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getJob, updateJob, checkFile } from "@/lib/jobs-db";
+import { explainError } from "@/lib/explain-error";
 
 export async function GET(_request, { params }) {
   const { id } = await params;
@@ -22,6 +23,12 @@ export async function PATCH(request, { params }) {
   } else {
     change = await request.json();
   }
-  const job = await updateJob(id, change);
+  let job;
+  try {
+    job = await updateJob(id, change);
+  } catch (e) {
+    console.error("update job failed:", e.message);
+    return NextResponse.json({ error: `บันทึกไม่สำเร็จ: ${explainError(e)}` }, { status: 500 });
+  }
   return job ? NextResponse.json(job) : NextResponse.json({ error: "ไม่พบงานนี้" }, { status: 404 });
 }

@@ -9,11 +9,15 @@ import { Icon, PrintShopArt } from "../../Icons";
 import Shipment from "./Shipment";
 import DeliveryNote from "./DeliveryNote";
 
-export default function JobDetail({ initialJob, isNew }) {
+export default function JobDetail({ initialJob, isNew, fileError }) {
   const router = useRouter();
   const [job, setJob] = useState(initialJob);
   const [busy, setBusy] = useState(-1);
-  const [msg, setMsg] = useState(isNew ? { ok: true, text: "บันทึกงานใหม่เรียบร้อยแล้ว" } : null);
+  const [msg, setMsg] = useState(
+    fileError
+      ? { ok: false, text: `บันทึกงานแล้ว แต่แนบไฟล์ไม่สำเร็จ (${fileError}) แนบไฟล์ใหม่ได้ที่ช่องใบเสนอราคาด้านล่าง` }
+      : isNew ? { ok: true, text: "บันทึกงานใหม่เรียบร้อยแล้ว" } : null
+  );
 
   async function send(body, isFile) {
     const res = await fetch(`/api/jobs/${job.id}`, {

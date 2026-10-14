@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function JobPage({ params, searchParams }) {
   const { id } = await params;
-  const { new: isNew } = await searchParams;
+  const { new: isNew, fileError } = await searchParams;
   const job = await getJob(id);
 
   if (!job) {
@@ -20,5 +20,5 @@ export default async function JobPage({ params, searchParams }) {
       </main>
     );
   }
-  return <JobDetail initialJob={job} isNew={!!isNew} />;
+  return <JobDetail initialJob={job} isNew={!!isNew} fileError={typeof fileError === "string" ? fileError.slice(0, 200) : ""} />;
 }

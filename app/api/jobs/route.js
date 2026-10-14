@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readJobs, createJob, checkFile } from "@/lib/jobs-db";
+import { explainError } from "@/lib/explain-error";
 
 export async function GET() {
   return NextResponse.json(await readJobs());
@@ -22,10 +23,10 @@ export async function POST(request) {
   if (Object.keys(errors).length) return NextResponse.json({ errors }, { status: 400 });
 
   try {
-    const job = await createJob({ customer, docNo, file: hasFile ? file : null });
-    return NextResponse.json(job, { status: 201 });
+    const { job, fileError } = await createJob({ customer, docNo, file: hasFile ? file : null });
+    return NextResponse.json({ ...job, fileError }, { status: 201 });
   } catch (e) {
     console.error("create job failed:", e.message);
-    return NextResponse.json({ error: "ระบบเก็บข้อมูลขัดข้อง บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง" }, { status: 500 });
+    return NextResponse.json({ error: `บันทึกไม่สำเร็จ: ${explainError(e)}` }, { status: 500 });
   }
 }
