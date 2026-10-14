@@ -83,3 +83,7 @@
 - 14 ต.ค. 2569 — ผู้ใช้ย้ายโปรเจกต์ไปไว้ในโฟลเดอร์ "New folder" บนเดสก์ท็อป (ข้อมูลครบ 24 งาน) คัดลอก .git ตามเข้าไปแล้ว ใช้ git จากในโฟลเดอร์นี้
   (.git เดิมบนเดสก์ท็อปยังอยู่ ย้ายไม่ได้เพราะมีโปรแกรมใช้งานค้าง ยังไม่ได้ลบ) · เปิดเว็บบนเครื่อง: เปิดหน้าต่างสีดำจาก New folder
   ข้อความ error บนเว็บออนไลน์ที่ยังไม่ใส่กุญแจ บอกชัดว่า "ยังไม่ได้ใส่กุญแจ Supabase" · ยังรอผู้ใช้ใส่ SUPABASE_URL / SUPABASE_SECRET_KEY ใน Vercel
+- 14 ต.ค. 2569 — ✅ ลิงก์ออนไลน์ใช้งานได้แล้ว: https://pimdee-mee-hay.vercel.app
+  Supabase: องค์กร Pimdee-meeHay / โปรเจกต์ "Koykeaw1990's Project" (Sydney, ฟรี) ล็อกอินด้วย GitHub · รัน setup.sql แล้ว
+  กุญแจส่งเข้า Vercel ผ่าน Vercel Marketplace → Supabase → Link Existing Account (ไม่ต้องคัดลอกกุญแจเอง) โค้ดรองรับ SUPABASE_SERVICE_ROLE_KEY ด้วย (lib/supabase-env.js)
+  /api/health ตรวจแล้ว อ่าน/เขียน/ไฟล์ ok · ใส่งานตัวอย่าง 18 งานบนเว็บออนไลน์แล้ว · งานจริงในเครื่องไม่ได้ส่งขึ้นไป
