@@ -78,3 +78,6 @@
 - 12 ต.ค. 2569 — เริ่มขั้นที่ 6 (ลิงก์ให้คนอื่นทดลองใช้): โค้ดรองรับ Supabase แล้ว (lib/store-supabase.js, supabase/setup.sql) อัปขึ้น GitHub แล้ว
   ค่าตั้งค่าบน Vercel: SUPABASE_URL, SUPABASE_SECRET_KEY (ห้ามใส่ในโค้ด/แชท) · ถ้าไม่มีค่านี้จะใช้โฟลเดอร์ data เหมือนเดิม
   ขั้นถัดไป: พาผู้ใช้สมัคร Supabase → รัน setup.sql → สมัคร Vercel → ใส่กุญแจ → ใส่งานตัวอย่าง (POST /api/samples)
+- 26 ต.ค. 2569 — ขยายภาพ standee 150x200 ซม. ด้วย AI (Real-ESRGAN) ชุดม่วง/ชุดส้ม เก็บใน standee_AI/
+- 26 ต.ค. 2569 — ฉลากสินค้า SUV-000324 (ถุงผ้า 5 x 9 นิ้ว ใบละ 15 บาท) 20 ดวงบน A4 ธรรมดา เสร็จ: labels/ฉลาก_SUV-000324.pdf
+  ฟอนต์ Sarabun, บาร์โค้ด Code128 ทดสอบอ่านได้ครบ 20 ดวง
